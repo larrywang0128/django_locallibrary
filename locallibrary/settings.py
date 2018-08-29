@@ -30,7 +30,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'yus-9wl18_!x70ah6n4n1hr@0k7-y3
 # In production, pass environment variable DJANGO_DEBUG='' to set turn off debug
 DEBUG = bool(os.environ.get('DJANGO_DEBUG',True))
 
-ALLOWED_HOSTS = []
+# add heorku as allowed host
+ALLOWED_HOSTS = ['frozen-escarpment-14329.herokuapp.com']
 
 
 # Application definition
