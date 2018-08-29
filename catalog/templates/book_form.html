@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+    <title> Create/Update Book </title>
+{% endblock %}
+
+{% block content %}
+    <h1> Create/Update Book </h1>
+    <br>
+    <hr>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_table}}
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

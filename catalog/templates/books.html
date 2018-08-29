@@ -1,0 +1,29 @@
+<!-- refer to base html as a template tag, then replace the content block -->
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Book List</h1>
+  <!-- check whether list_of_books is empty -->
+  {% if list_of_books %}
+  <p> <strong>Number of books:</strong> {{num_books}} </p>
+  <ul>
+    {% for book in list_of_books %}
+      <li>
+        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+        {% if perms.catalog.can_update_book %}
+            <a href="{% url 'book_update' book.id %}"><button> Edit </button></a>
+        {% endif %}
+        {% if perms.catalog.can_delete_book %}
+            <a href="{% url 'book_delete' book.id %}"><button> Delete </button></a>
+        {% endif %}
+      </li>
+      <br>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no books in the library.</p>
+  {% endif %}
+  {% if perms.catalog.can_create_book %}
+      <a href="{% url 'book_create' %}"><button>Add a Book</button></a>   
+  {% endif %}    
+{% endblock %}

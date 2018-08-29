@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+    <title> Delete Author </title>
+{% endblock %}
+
+{% block content %}
+    <h1> Delete Author </h1>
+    <br>
+    <hr>
+    <p> Are you sure to delete author: {{author.last_name}}, {{author.first_name}} </p>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+    </form>
+{% endblock %}
