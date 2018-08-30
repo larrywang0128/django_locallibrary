@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
@@ -25,14 +26,15 @@ urlpatterns = [
 from django.conf.urls import include
 
 urlpatterns += [
-    path('catalog/', include('catalog.urls')),
+    path('catalog/', include('catalog.urls'), name='catalog'),
 ]
 
 # Add URL maps to redirect the base URL to our application
 # Since catalog is the only app, we redirect the root URL of our site (i.e. 127.0.0.1:8000) to the URL 127.0.0.1:8000/catalog/
 from django.views.generic import RedirectView
 urlpatterns += [
-    path('', RedirectView.as_view(url='catalog/')),
+    #path('', RedirectView.as_view(url='catalog/')),
+    path('', views.landing_view, name='landing'),
 ]
 
 # Django does not serve static files like CSS, JavaScript, and images by default.
@@ -47,5 +49,10 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # It is better to separate authentication from an specific application
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
+]
+
+# User signup/registration
+urlpatterns += [
+    path('signup/', views.user_signup_view, name='register'),
 ]
 

@@ -1,21 +1,15 @@
 {% extends "base_generic.html" %}
 
 {% block title %}
-    <title> Renew Book </title>
+    <title> Registration </title>
 {% endblock %}
 
 {% block content %}
-    <h1> Renewing Book </h1>
+    <h1> Register New Account </h1>
     <br>
     <hr>
-    <p><strong> Book: {{book_instance.book.title}} </strong></p>
-    <p> Borrower: {{book_instance.borrower}} </p>
-    <p {% if book_instance.is_overdue %} class = "text-danger" {% endif %}> Due Date: {{book_instance.due_back}} </p>
-    
-    <!-- action specifies the resource/URL where data is to be sent for processing when the form is submitted. 
-        If this is not set (or set to an empty string), then the form will be submitted back to the current page URL.-->
-    <form action="" method="POST">
-        <!-- Add the {% csrf_token %} to every Django template you create that uses POST to submit data. This will reduce the chance of forms being hijacked by malicious users. -->
+    <p> please use form below to register </p>
+    <form method="POST">
         {% csrf_token %}
         <!-- change style of form display -->
         {% for field in form %}
@@ -33,7 +27,6 @@
                 {% endfor %}
             </p>
         {% endfor %}
-        <input type="submit" value="Submit">
+        <input type="submit" value="Signup">
     </form>
-
 {% endblock %}
