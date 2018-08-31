@@ -274,3 +274,68 @@ class AuthorDelete(PermissionRequiredMixin, DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
     template_name = 'author_confirm_delete.html'
+
+'''
+define a view for borrow books
+'''
+from catalog.forms import SetReturnDateForm
+
+@login_required
+def borrow_book_instance_view(request, pk):
+    # retreive the book instance
+    borrowedbook = get_object_or_404(BookInstance, pk=pk)
+    # check POST vs GET
+    if request.method=='POST':
+        return_form = SetReturnDateForm(request.POST)
+        # form has to be valid and current book instance is available
+        if return_form.is_valid() and borrowedbook.status == 'a':
+            # update borrower to current user
+            borrowedbook.borrower = request.user
+            # update status to on loan
+            borrowedbook.status = 'o'
+            # update due_back date to the value in form
+            borrowedbook.due_back = return_form.cleaned_data['due_back']
+            # save the changes to BookInstance
+            borrowedbook.save()
+            # redirect to My Borrowed Book view
+            return HttpResponseRedirect(reverse('my_borrow'))
+    else:
+        return_form = SetReturnDateForm(initial={'due_back':'YYYY-MM-DD'})
+    
+    context = {'borrowedbook': borrowedbook, 'form':return_form}
+    return render(request, 'borrow_book.html', context)
+            
+            
+'''
+define a view to return borrowed books
+'''
+
+@login_required
+def return_book_instance_view(request, pk):
+    # retreive book instance
+    returnbook = get_object_or_404(BookInstance, pk=pk)
+    error_message = None
+    # after user click to submit(i.e. GET request changes to POST request), check the validity of return and then process 
+    if request.method=="POST":
+        # check current status of book should be on loan
+        if returnbook.status != 'o':
+            error_message = 'Book is not currently on loan'
+        # avoid non-borrower hijacking the return
+        elif returnbook.borrower != request.user:
+            error_message = 'Only borrower can return the book'
+        # processing book return
+        else:
+            returnbook.status = 'a'
+            returnbook.borrower = None
+            returnbook.due_back = None
+            returnbook.save()
+            # redirect to my borrow list
+            return HttpResponseRedirect(reverse('my_borrow'))
+    else:
+        pass
+    context = {'returnbook': returnbook,
+               'error':error_message}
+    return render(request, 'return_book.html', context)
+            
+
+                

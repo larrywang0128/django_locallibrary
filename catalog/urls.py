@@ -49,4 +49,10 @@ urlpatterns = [
         path('author/create/', views.AuthorCreate.as_view(), name='author_create'),
         path('author/<int:pk>/update/', views.AuthorUpdate.as_view(), name='author_update'),
         path('author/<int:pk>/delete/', views.AuthorDelete.as_view(), name='author_delete'),
+        
+        ## define a view for borrow books
+        path('book/<uuid:pk>/borrow/', views.borrow_book_instance_view, name='borrow_book'),
+        
+        #E define a view to return borrowed books
+        path('book/<uuid:pk>/return/', views.return_book_instance_view, name='return_book'),
         ]

@@ -14,5 +14,7 @@
         {% csrf_token %}
         <input type="submit" value="Delete">
     </form>
-
+    <!-- include a back button to book list -->
+    <br>
+    <a href="{% url 'books' %}"><button>Back</button></a>
 {% endblock %}

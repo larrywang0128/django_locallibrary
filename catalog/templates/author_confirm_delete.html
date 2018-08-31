@@ -13,4 +13,7 @@
         {% csrf_token %}
         <input type="submit" value="Delete">
     </form>
+    <!-- include a back button to auther list -->
+    <br>
+    <a href="{% url 'authors' %}"><button>Back</button></a>
 {% endblock %}

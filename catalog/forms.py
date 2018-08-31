@@ -56,3 +56,30 @@ class RenewBookForm(forms.Form):
 #        data = self.cleaned_data['due_back']
 #        ### validation functions and errors (as above) ###
 #        return data
+
+'''
+define a form with return date for BorrowBookDetailView.
+The return date should be within 3 weeks of present date.
+'''
+from django.forms import ModelForm
+from catalog.models import BookInstance
+
+class SetReturnDateForm(ModelForm):
+    # configure fields
+    class Meta:
+        model = BookInstance
+        fields = ['due_back']
+        # change label and help_text of due_back field
+        labels = {'due_back': _('Return by')}
+        help_texts = {'due_back': _('Enter a date between today and 3 weeks')}
+    # define validateion rules for due_back
+    def clean_due_back(self):
+        data = self.cleaned_data['due_back']
+        # check whether date is in the past
+        if data < datetime.date.today():
+            raise ValidationError(_('Invalid date - return date is passed'))
+        elif data > datetime.date.today() + datetime.timedelta(weeks=3):
+            raise ValidationError(_('Invalid date - return date is more than 3 weeks ahead'))
+        else:
+            pass
+        return data

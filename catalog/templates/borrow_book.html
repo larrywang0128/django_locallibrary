@@ -1,0 +1,51 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+    <title> Borrow Book </title>
+{% endblock %}
+
+{% block content %}
+    <h1> Borrow Book </h1>
+    <br>
+    <hr>
+    <!-- list of detail of the book -->
+    <p><strong>Title: </strong> {{borrowedbook.book.title}} </p>
+    <p><strong>Imprint: </strong> {{borrowedbook.imprint}} </p>
+    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        <strong>Status: </strong> {{borrowedbook.get_status_display}} 
+    </p>
+    <p><strong>Availability: </strong>
+        {% if borrowedbook.status == 'm' %}
+            Not available
+        {% elif borrowedbook.status == 'a' %}
+            Current available
+        {% else %}
+            After {{borrowedbook.due_back}}
+        {% endif %}
+    </p>
+    <!-- display option to borrow book only if the book instance is available-->
+    {% if borrowedbook.status == 'a' %}
+        <form method="POST">
+            {% csrf_token %}
+            <!-- change style of form display -->
+            {% for field in form %}
+                <p>
+                    <strong>{{field.label_tag}}</strong><br> 
+                    {{field}}
+                    <!-- display help text in gray if there is any -->
+                    {% if field.help_text %}
+                        <!-- user help_text|safe to render html code within help text -->
+                        <small style="color:gray">{{field.help_text|safe}}</small> 
+                    {% endif %}
+                    <!-- display error message in red if there is any -->
+                    {% for error in field.errors %}
+                        <p style="color:red">{{error}}</p>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+            <input type="submit" value="Borrow">
+        </form>
+    {% endif %}
+    <br>
+    <a href="{% url 'book_details' borrowedbook.book.pk %}"><button>Back</button></a>
+{% endblock %}

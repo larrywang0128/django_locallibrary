@@ -14,8 +14,10 @@
         <ul>
             {% for bookinst in myborrowedbook %}
                 <li class = "{% if bookinst.is_overdue %} text-danger {% endif %}">
-                    <a href="{% url 'book_details' bookinst.book.pk %}"> {{bookinst.book.title}} </a> {{bookinst.due_back}}
+                    <a href="{% url 'book_details' bookinst.book.pk %}"> {{bookinst.book.title}} </a> (Due: {{bookinst.due_back}})
+                    <a href="{% url 'return_book' bookinst.pk %}"><button>Return</button></a>
                 </li>
+                <br>
             {% endfor %}
         </ul>
     {% else %}
