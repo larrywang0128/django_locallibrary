@@ -110,5 +110,4 @@ venv.bak/
 *.sqlite3
 
 # AWS EB
-.ebextensions/
 .elasticbeanstalk/
