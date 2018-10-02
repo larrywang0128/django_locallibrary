@@ -28,10 +28,12 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'yus-9wl18_!x70ah6n4n1hr@0k7-y3
 # This enables debugging logs to be displayed on error, rather than HTTP status code responses. 
 # This should be set to False on production as debug information is useful for attackers
 # In production, pass environment variable DJANGO_DEBUG='' to set turn off debug
-DEBUG = bool(os.environ.get('DJANGO_DEBUG',True))
+DEBUG = False
 
 # add heorku as allowed host
-ALLOWED_HOSTS = ['frozen-escarpment-14329.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['frozen-escarpment-14329.herokuapp.com', 
+				'127.0.0.1',
+				'VideoAnalyzer-env-1.mkn9urkmdc.us-west-1.elasticbeanstalk.com',]
 
 
 # Application definition
@@ -128,7 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
-#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'catalog/static/')
 
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
