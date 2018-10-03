@@ -105,5 +105,8 @@ venv.bak/
 # Text backup files
 *.bak
 
+#Django
+*.sqlite3
+
 # AWS EB
 .elasticbeanstalk/
