@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import locallibrary.settings_secret as ss # settings_secret.py store sensitive information
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,18 +23,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 # If you're not protecting this code in development, you'll need to use a different code 
 # (perhaps read from an environment variable or file) when putting it into production. 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'yus-9wl18_!x70ah6n4n1hr@0k7-y3stci*++6w1nszvzqfh5i')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', ss.SECRET_KEY_STRING)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # This enables debugging logs to be displayed on error, rather than HTTP status code responses. 
 # This should be set to False on production as debug information is useful for attackers
 # In production, pass environment variable DJANGO_DEBUG='' to set turn off debug
-DEBUG = False
+DEBUG = bool(os.environ.get('DJANGO_DEBUG',True))
 
 # add heorku as allowed host
-ALLOWED_HOSTS = ['frozen-escarpment-14329.herokuapp.com', 
-				'127.0.0.1',
-				'VideoAnalyzer-env-1.mkn9urkmdc.us-west-1.elasticbeanstalk.com',]
+ALLOWED_HOSTS = ['127.0.0.1',]
 
 
 # Application definition
@@ -100,9 +99,9 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'locallibrary',
-            'USER': 'haiwa',
-            'PASSWORD': 'larry2011',
+            'NAME': ss.DATABASES_NAME,
+            'USER': ss.DATABASES_USER,
+            'PASSWORD': ss.DATABASES_PASSWORD,
             'HOST': 'localhost',
             'PORT': '5432',
         }
@@ -148,7 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 # The absolute path to the directory where collectstatic will collect static files for deployment.
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = 'static'
 
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'

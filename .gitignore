@@ -107,6 +107,7 @@ venv.bak/
 
 #Django
 *.sqlite3
+settings_secret.py
 
 # AWS EB
 .elasticbeanstalk/
